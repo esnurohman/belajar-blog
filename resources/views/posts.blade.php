@@ -5,7 +5,11 @@
                 <h2 class="text-xl font-bold mb-1 tracking-tight text">{{ $post['title'] }}</h2>
             </a>
             <div class="font-tight text-gray-500  text-sm md:text-base">
-                <a href="#">{{ $post['author'] }}</a> | {{ $post['date'] }} | <a href="#">{{ $post['kategori'] }}</a>
+                By
+                <a href="/authors/{{ $post->author->username }}" class="hover:underline text-gray-900"> {{ $post->author->name }}
+                </a> in 
+                <a href="/categories/{{ $post->category->slug }}" class="hover:underline text-gray-900">{{ $post->category->name }}
+                </a> | {{ \Carbon\Carbon::parse($post->created_at)->format('F j, Y') }} 
             </div>
             <p class="my-4 font-light">{{ Str::limit($post['content'], 100) }}</p>
             <a href="/posts/{{ $post['slug'] }}" class="text-blue-500 hover:underline">Read more &raquo;</a>
