@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-#[Fillable(['name'])]
+#[Fillable(['name', 'color'])]
 class Category extends Model
 {
     use HasFactory;
