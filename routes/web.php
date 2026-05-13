@@ -8,9 +8,16 @@ use App\Models\User;
 Route::get('/', function () {
     return view('home', ['title' => 'Home']);
 });
+
 Route::get('/posts', function () {
     // $posts = Post::with('author', 'category')->latest()->get();
-    $posts = Post::all();
+    $posts = Post::query()
+    ->latest()
+    ->when(request('search'), function ($query) {
+        $query->where('title', 'like', '%' . request('search') . '%');
+    })
+    ->get();
+    
     return view('posts', ['title' => 'Blog', 'posts' => $posts]);
 });
 
@@ -31,7 +38,7 @@ Route::get('/authors/{user:username}', function (User $user) {
 Route::get('/categories/{category:slug}', function (Category $category) {
     // $posts = $category->posts->load('author', 'category');
     $posts = $category->posts;
-    return view('posts', ['title' => count($posts) . ' Articles in ' . $category->name, 'posts' => $category->posts]);
+    return view('posts', ['title' => count($posts) . ' Articles in ' . $category->name . ' Category', 'posts' => $category->posts]);
 });
 
 Route::get('/about', function () {
